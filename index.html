@@ -1,11 +1,14 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f8fbf5">
-  <meta name="description" content="REsource Recovery: prototipo educativo de segregación de residuos de Séptimo B, Innova Schools.">
+  <meta name="description" content="REsource Recovery: prototipo educativo y gamificado de segregación de residuos de Séptimo B, Innova Schools.">
   <title>REsource Recovery · Innova Schools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,11 +22,16 @@
         <span>Innova Schools</span>
         <span>Séptimo B</span>
       </div>
-      <div class="points-pill" aria-label="Puntos de Tu equipo">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar modo claro u oscuro" aria-pressed="false">
+        <span class="theme-icon" aria-hidden="true">🌙</span>
+      </button>
+      <div class="points-pill" aria-label="Puntos de tu equipo">
         <span>Puntos</span>
         <strong id="header-points">0</strong>
       </div>
     </header>
+
+    <div class="journey-progress" aria-hidden="true"><span id="journey-fill"></span></div>
 
     <div class="workspace">
       <nav class="step-nav" aria-label="Secciones del proyecto">
@@ -31,9 +39,10 @@
         <button class="nav-step" type="button" data-section="problema"><span>2</span>Problema</button>
         <button class="nav-step" type="button" data-section="solucion"><span>3</span>Solución</button>
         <button class="nav-step" type="button" data-section="tutorial"><span>4</span>Tutorial</button>
-        <button class="nav-step" type="button" data-section="validacion"><span>5</span>Validación</button>
-        <button class="nav-step" type="button" data-section="ranking"><span>6</span>Ranking</button>
-        <button class="nav-step" type="button" data-section="equipo"><span>7</span>Equipo</button>
+        <button class="nav-step" type="button" data-section="juego"><span>5</span>Juego</button>
+        <button class="nav-step" type="button" data-section="validacion"><span>6</span>Validación</button>
+        <button class="nav-step" type="button" data-section="ranking"><span>7</span>Ranking</button>
+        <button class="nav-step" type="button" data-section="equipo"><span>8</span>Equipo</button>
       </nav>
 
       <main class="panel-stage" id="main-content" tabindex="-1">
@@ -41,11 +50,14 @@
           <div class="hero-copy">
             <h1 id="inicio-title"><span>RE</span>source<br>Recovery</h1>
             <p class="hero-subtitle">Aprende a segregar, reciclar y recuperar recursos</p>
-            <p class="hero-description">Este prototipo busca motivar a la comunidad a separar correctamente los residuos mediante educación ambiental, registro de acciones, puntos y ranking.</p>
-            <button class="button button-primary" type="button" data-section="problema">Iniciar recorrido <span aria-hidden="true">→</span></button>
+            <p class="hero-description">Este prototipo busca motivar a la comunidad a separar correctamente los residuos mediante educación ambiental, un juego de clasificación, puntos, logros y ranking.</p>
+            <div class="hero-actions">
+              <button class="button button-primary" type="button" data-section="problema">Iniciar recorrido <span aria-hidden="true">→</span></button>
+              <button class="button button-quiet" type="button" data-section="juego">Jugar ahora 🎮</button>
+            </div>
           </div>
           <div class="hero-visual">
-            <img src="assets/resource-recovery-hero.png" alt="Papel, botella y cartón que se recuperan como nuevos recursos y plantas.">
+            <img src="assets/resource-recovery-hero.png" alt="Papel, botella y cartón que se recuperan como nuevos recursos y plantas." loading="eager">
             <p>Lo que se separa bien puede convertirse en un nuevo recurso.</p>
           </div>
         </section>
@@ -57,12 +69,12 @@
           </div>
           <div class="problem-layout">
             <div class="problem-list">
-              <article class="problem-item"><span>01</span><div><h3>Segregación incorrecta</h3><p>Los residuos se colocan en recipientes que no corresponden.</p></div></article>
-              <article class="problem-item"><span>02</span><div><h3>Reciclables desperdiciados</h3><p>Papel, cartón y plástico se mezclan con residuos generales.</p></div></article>
-              <article class="problem-item"><span>03</span><div><h3>Poca motivación</h3><p>Sin una meta clara, muchas acciones de reciclaje se abandonan.</p></div></article>
-              <article class="problem-item"><span>04</span><div><h3>Educación poco práctica</h3><p>Necesitamos aprender con ejemplos simples y participar activamente.</p></div></article>
+              <article class="problem-item reveal"><span>01</span><div><h3>Segregación incorrecta</h3><p>Los residuos se colocan en recipientes que no corresponden.</p></div></article>
+              <article class="problem-item reveal"><span>02</span><div><h3>Reciclables desperdiciados</h3><p>Papel, cartón y plástico se mezclan con residuos generales.</p></div></article>
+              <article class="problem-item reveal"><span>03</span><div><h3>Poca motivación</h3><p>Sin una meta clara, muchas acciones de reciclaje se abandonan.</p></div></article>
+              <article class="problem-item reveal"><span>04</span><div><h3>Educación poco práctica</h3><p>Necesitamos aprender con ejemplos simples y participar activamente.</p></div></article>
             </div>
-            <aside class="impact-note"><strong>La oportunidad</strong><p>Enseñar, registrar y reconocer cada buena decisión puede convertir un hábito pequeño en un cambio compartido.</p></aside>
+            <aside class="impact-note reveal"><strong>La oportunidad</strong><p>Enseñar, registrar y reconocer cada buena decisión puede convertir un hábito pequeño en un cambio compartido.</p></aside>
           </div>
           <div class="panel-actions"><button class="button button-quiet" type="button" data-section="inicio">← Anterior</button><button class="button button-primary" type="button" data-section="solucion">Ver la solución →</button></div>
         </section>
@@ -73,11 +85,11 @@
             <div><h2 id="solucion-title">Una ruta simple para actuar mejor</h2><p>REsource Recovery propone una app educativa que enseña a separar residuos, permite registrar acciones de reciclaje, suma puntos y muestra un ranking para motivar la participación.</p></div>
           </div>
           <div class="process-flow" aria-label="Proceso de REsource Recovery">
-            <article><span>1</span><h3>Aprende</h3><p>Reconoce cada material.</p></article>
-            <article><span>2</span><h3>Separa</h3><p>Elige el lugar correcto.</p></article>
-            <article><span>3</span><h3>Registra</h3><p>Valida tu acción.</p></article>
-            <article><span>4</span><h3>Gana puntos</h3><p>Suma por ayudar.</p></article>
-            <article><span>5</span><h3>Mejora</h3><p>Avanza en el ranking.</p></article>
+            <article class="reveal"><span>1</span><h3>Aprende</h3><p>Reconoce cada material.</p></article>
+            <article class="reveal"><span>2</span><h3>Separa</h3><p>Elige el lugar correcto.</p></article>
+            <article class="reveal"><span>3</span><h3>Registra</h3><p>Valida tu acción.</p></article>
+            <article class="reveal"><span>4</span><h3>Gana puntos</h3><p>Suma por ayudar.</p></article>
+            <article class="reveal"><span>5</span><h3>Mejora</h3><p>Avanza en el ranking.</p></article>
           </div>
           <blockquote>“Recuperar recursos también es cuidar el futuro”.</blockquote>
           <div class="panel-actions"><button class="button button-quiet" type="button" data-section="problema">← Anterior</button><button class="button button-primary" type="button" data-section="tutorial">Aprender a separar →</button></div>
@@ -86,31 +98,79 @@
         <section class="panel" id="tutorial" aria-labelledby="tutorial-title" hidden>
           <div class="section-heading compact-heading">
             <p class="section-number">04</p>
-            <div><h2 id="tutorial-title">Practica antes de registrar</h2><p>Selecciona una acción. Esa será la cantidad que sumarás cuando la valides.</p></div>
+            <div><h2 id="tutorial-title">Conoce los tachos de colores</h2><p>En el Perú cada color tiene un significado (NTP 900.058). Reconocerlos es el primer paso para separar bien.</p></div>
           </div>
-          <div class="tutorial-grid" role="list" aria-label="Acciones de reciclaje">
+          <div class="bins-guide" aria-label="Guía de tachos de colores">
+            <article class="bin-card bin-marron reveal"><span class="bin-emoji" aria-hidden="true">🍎</span><h3>Marrón</h3><p class="bin-type">Orgánicos</p><small>Cáscaras, restos de comida, hojas.</small></article>
+            <article class="bin-card bin-blanco reveal"><span class="bin-emoji" aria-hidden="true">🧴</span><h3>Blanco</h3><p class="bin-type">Plásticos</p><small>Botellas, envases y bolsas limpias.</small></article>
+            <article class="bin-card bin-azul reveal"><span class="bin-emoji" aria-hidden="true">📦</span><h3>Azul</h3><p class="bin-type">Papel y cartón</p><small>Hojas, cajas, periódicos secos.</small></article>
+            <article class="bin-card bin-verde reveal"><span class="bin-emoji" aria-hidden="true">🍶</span><h3>Verde</h3><p class="bin-type">Vidrio</p><small>Frascos y botellas de vidrio.</small></article>
+            <article class="bin-card bin-amarillo reveal"><span class="bin-emoji" aria-hidden="true">🥫</span><h3>Amarillo</h3><p class="bin-type">Metales</p><small>Latas y tapas metálicas.</small></article>
+            <article class="bin-card bin-negro reveal"><span class="bin-emoji" aria-hidden="true">🗑️</span><h3>Negro</h3><p class="bin-type">No aprovechable</p><small>Residuos que no se pueden reciclar.</small></article>
+          </div>
+          <div class="phrase-rail" aria-label="Mensajes ambientales"><span>Reciclar suma</span><span>Cada acción cuenta</span><span>Separa bien, cuida tu parque</span><span>Recuperar recursos es cuidar el futuro</span></div>
+          <div class="decision-box">
+            <div><strong>¿Listo para practicar?</strong><p>Pon a prueba lo aprendido en el juego de clasificación.</p></div>
+            <div><button class="button button-quiet" type="button" data-section="solucion">← Anterior</button><button class="button button-primary" type="button" data-section="juego">Ir al juego 🎮</button></div>
+          </div>
+        </section>
+
+        <section class="panel" id="juego" aria-labelledby="juego-title" hidden>
+          <div class="section-heading compact-heading">
+            <p class="section-number">05</p>
+            <div><h2 id="juego-title">Juego de clasificación</h2><p>Arrastra el residuo al tacho correcto (o toca el tacho). Acierta para sumar puntos.</p></div>
+          </div>
+
+          <div class="game-stats" aria-live="polite">
+            <div class="game-stat"><span>Aciertos</span><strong id="game-hits">0</strong></div>
+            <div class="game-stat"><span>Racha</span><strong id="game-streak">0</strong></div>
+            <div class="game-stat"><span>Puntos juego</span><strong id="game-points">0</strong></div>
+          </div>
+
+          <div class="game-stage">
+            <div class="game-item-zone" id="game-item-zone" aria-live="polite">
+              <p class="game-empty" id="game-empty">Pulsa «Empezar» para recibir un residuo.</p>
+            </div>
+            <p class="game-feedback" id="game-feedback" role="status" aria-live="polite"></p>
+            <div class="bins-row" id="bins-row" role="group" aria-label="Tachos para clasificar">
+              <button class="game-bin bin-marron" type="button" data-bin="organico"><span aria-hidden="true">🟫</span><strong>Marrón</strong><small>Orgánico</small></button>
+              <button class="game-bin bin-blanco" type="button" data-bin="plastico"><span aria-hidden="true">⬜</span><strong>Blanco</strong><small>Plástico</small></button>
+              <button class="game-bin bin-azul" type="button" data-bin="papel"><span aria-hidden="true">🟦</span><strong>Azul</strong><small>Papel/cartón</small></button>
+              <button class="game-bin bin-verde" type="button" data-bin="vidrio"><span aria-hidden="true">🟩</span><strong>Verde</strong><small>Vidrio</small></button>
+              <button class="game-bin bin-amarillo" type="button" data-bin="metal"><span aria-hidden="true">🟨</span><strong>Amarillo</strong><small>Metal</small></button>
+            </div>
+            <div class="game-controls">
+              <button class="button button-primary" id="game-start" type="button">Empezar</button>
+              <button class="button button-quiet" id="game-challenge" type="button">Reto 30 s ⏱️</button>
+              <span class="game-timer" id="game-timer" hidden>30</span>
+            </div>
+          </div>
+
+          <div class="quiz-block">
+            <h3>Trivia ambiental</h3>
+            <p class="quiz-progress" id="quiz-progress"></p>
+            <p class="quiz-question" id="quiz-question">Pulsa «Comenzar trivia» para empezar.</p>
+            <div class="quiz-options" id="quiz-options"></div>
+            <div class="quiz-controls">
+              <button class="button button-primary" id="quiz-start" type="button">Comenzar trivia</button>
+            </div>
+          </div>
+
+          <div class="panel-actions"><button class="button button-quiet" type="button" data-section="tutorial">← Tutorial</button><button class="button button-primary" type="button" data-section="validacion">Registrar una acción real →</button></div>
+        </section>
+
+        <section class="panel" id="validacion" aria-labelledby="validacion-title" hidden>
+          <div class="section-heading">
+            <p class="section-number">06</p>
+            <div><h2 id="validacion-title">Valida tu acción</h2><p>Elige una acción real y simula cualquiera de los tres métodos de validación.</p></div>
+          </div>
+          <div class="tutorial-grid" role="group" aria-label="Acciones de reciclaje">
             <button class="action-card" type="button" data-action-points="5" data-action-reason="Papel o cartón"><span class="material-code">PAP</span><strong>Papel / cartón</strong><small>+5 puntos</small></button>
             <button class="action-card" type="button" data-action-points="10" data-action-reason="Botella de plástico"><span class="material-code blue">PET</span><strong>Botella plástica</strong><small>+10 puntos</small></button>
             <button class="action-card" type="button" data-action-points="30" data-action-reason="Caja de cartón"><span class="material-code gold">BOX</span><strong>Caja / cartón</strong><small>+30 puntos</small></button>
             <button class="action-card" type="button" data-action-points="15" data-action-reason="Segregación correcta"><span class="material-code green">OK</span><strong>Segregación correcta</strong><small>+15 puntos</small></button>
           </div>
-          <div class="phrase-rail" aria-label="Mensajes ambientales"><span>Reciclar suma</span><span>Cada acción cuenta</span><span>Separa bien, cuida tu parque</span><span>Recuperar recursos es cuidar el futuro</span></div>
-          <div class="decision-box">
-            <div><strong>¿Quieres continuar?</strong><p id="selected-action-text">Elige una acción para comenzar.</p></div>
-            <div><button class="button button-quiet" id="show-more-tutorial" type="button">No, quiero aprender más</button><button class="button button-primary" id="continue-validation" type="button">Sí, validar →</button></div>
-          </div>
-          <div class="more-tutorial" id="more-tutorial" hidden>
-            <h3>Una separación correcta, paso a paso</h3>
-            <p>Vacía los envases, mantenlos limpios y secos, aplana las cajas para ahorrar espacio y evita mezclar papel con restos de comida. Si dudas, revisa el material antes de depositarlo.</p>
-            <button class="text-button" type="button" data-section="validacion">Entendido, continuar a validación →</button>
-          </div>
-        </section>
-
-        <section class="panel" id="validacion" aria-labelledby="validacion-title" hidden>
-          <div class="section-heading">
-            <p class="section-number">05</p>
-            <div><h2 id="validacion-title">Valida tu acción</h2><p>En este prototipo puedes simular cualquiera de los tres métodos.</p></div>
-          </div>
+          <p class="selected-action" id="selected-action-text">Elige una acción para comenzar.</p>
           <div class="validation-layout">
             <div class="validation-options" role="group" aria-label="Métodos de validación simulados">
               <button type="button" data-validate="QR"><span>QR</span><strong>Código QR</strong><small>Simular lectura</small></button>
@@ -122,30 +182,42 @@
           <div class="validation-success" id="validation-success" role="status" aria-live="polite" hidden>
             <span aria-hidden="true">✓</span><div><strong>¡Acción registrada!</strong><p>Sumaste puntos por ayudar al planeta.</p></div><button class="button button-primary" type="button" data-section="ranking">Ver ranking →</button>
           </div>
-          <div class="panel-actions" id="validation-back"><button class="button button-quiet" type="button" data-section="tutorial">← Volver al tutorial</button></div>
+          <div class="panel-actions" id="validation-back"><button class="button button-quiet" type="button" data-section="juego">← Volver al juego</button></div>
         </section>
 
         <section class="panel" id="ranking" aria-labelledby="ranking-title" hidden>
           <div class="ranking-header">
-            <div class="section-heading compact-heading"><p class="section-number">06</p><div><h2 id="ranking-title">Ranking de recuperación</h2><p>Cada acción correcta mueve al equipo.</p></div></div>
+            <div class="section-heading compact-heading"><p class="section-number">07</p><div><h2 id="ranking-title">Ranking de recuperación</h2><p>Cada acción correcta mueve al equipo.</p></div></div>
             <div class="score-display"><span>Tu puntaje</span><strong id="ranking-points">0</strong></div>
           </div>
+
+          <div class="impact-grid" aria-label="Impacto estimado">
+            <div class="impact-stat"><span aria-hidden="true">🍶</span><strong id="impact-bottles">0</strong><small>botellas recuperadas</small></div>
+            <div class="impact-stat"><span aria-hidden="true">💧</span><strong id="impact-water">0 L</strong><small>de agua ahorrada</small></div>
+            <div class="impact-stat"><span aria-hidden="true">🌱</span><strong id="impact-co2">0 kg</strong><small>de CO₂ evitado</small></div>
+          </div>
+
+          <div class="achievements" aria-label="Logros desbloqueados">
+            <h3>Tus logros</h3>
+            <div class="medals" id="medals"></div>
+          </div>
+
           <ol class="ranking-list" id="ranking-list" aria-label="Ranking de equipos"></ol>
-          <div class="ranking-actions"><button class="button button-primary" type="button" data-section="validacion">Registrar otra acción</button><button class="button button-quiet" type="button" id="reset-demo">Reiniciar puntos demo</button></div>
+          <div class="ranking-actions"><button class="button button-primary" type="button" data-section="juego">Seguir jugando</button><button class="button button-quiet" type="button" id="reset-demo">Reiniciar puntos demo</button></div>
         </section>
 
         <section class="panel" id="equipo" aria-labelledby="equipo-title" hidden>
           <div class="section-heading compact-heading">
-            <p class="section-number">07</p>
+            <p class="section-number">08</p>
             <div><h2 id="equipo-title">El equipo detrás de la idea</h2><p>Somos REsource Recovery, un equipo de Séptimo B de Innova Schools comprometido con la educación ambiental y la recuperación responsable de recursos.</p></div>
           </div>
           <div class="team-grid">
-            <article><span>CR</span><h3>Carolina Reyes Moreno</h3><p>Líder</p></article>
-            <article><span>LC</span><h3>Luana Camayo</h3><p>Secretaria</p></article>
-            <article><span>BP</span><h3>Bruno Pumapillo</h3><p>Coordinador</p></article>
-            <article><span>MI</span><h3>Milagros Isidro</h3><p>Temporizadora</p></article>
-            <article><span>LG</span><h3>Liam Garma</h3><p>Evaluador</p></article>
-            <article><span>FL</span><h3>Franco Leonardo</h3><p>Motivador</p></article>
+            <article class="reveal"><span>CR</span><h3>Carolina Reyes Moreno</h3><p>Líder</p></article>
+            <article class="reveal"><span>LC</span><h3>Luana Camayo</h3><p>Secretaria</p></article>
+            <article class="reveal"><span>BP</span><h3>Bruno Pumapillo</h3><p>Coordinador</p></article>
+            <article class="reveal"><span>MI</span><h3>Milagros Isidro</h3><p>Temporizadora</p></article>
+            <article class="reveal"><span>LG</span><h3>Liam Garma</h3><p>Evaluador</p></article>
+            <article class="reveal"><span>FL</span><h3>Franco Leonardo</h3><p>Motivador</p></article>
           </div>
           <div class="panel-actions"><button class="button button-quiet" type="button" data-section="ranking">← Ver ranking</button><button class="button button-primary" type="button" data-section="inicio">Volver al inicio</button></div>
         </section>
@@ -154,6 +226,7 @@
 
     <footer class="site-footer"><span>Proyecto educativo de segregación de residuos</span><button type="button" data-section="equipo">Integrantes del grupo</button></footer>
   </div>
+  <canvas class="confetti-canvas" id="confetti-canvas" aria-hidden="true"></canvas>
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
   <script src="script.js"></script>
 </body>

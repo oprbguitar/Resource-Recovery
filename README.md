@@ -1,6 +1,22 @@
 # REsource Recovery
 
-Prototipo educativo y gamificado de segregación de residuos creado por **Séptimo B de Innova Schools**. La experiencia enseña a separar materiales, simula la validación de acciones, suma puntos y actualiza un ranking guardado en `localStorage`.
+Prototipo educativo y gamificado de segregación de residuos creado por **Séptimo B de Innova Schools**. La experiencia enseña a separar materiales según los tachos de colores del Perú (NTP 900.058), incluye un juego de arrastrar y soltar con confeti, una trivia ambiental, logros, un contador de impacto y un ranking guardado en `localStorage`.
+
+## Novedades del rediseño
+
+- **Tipografía con jerarquía**: Poppins (display) + Inter (cuerpo) desde Google Fonts.
+- **Modo oscuro** con interruptor en la cabecera (se recuerda en `localStorage`).
+- **Barra de progreso del recorrido** (1 → 8) que avanza con la navegación.
+- **Identidad cromática de tachos** según la norma peruana (marrón, blanco, azul, verde, amarillo, negro).
+- **Juego de clasificación** con arrastrar y soltar (mouse y táctil), racha, bonus y confeti.
+- **Trivia ambiental** de opción múltiple con puntaje.
+- **Logros/medallas** desbloqueables (bronce, plata, oro y retos del juego).
+- **Contador de impacto** estimado (botellas, agua y CO₂).
+- **Microanimaciones**: aparición de secciones, puntos animados y efectos al pasar el cursor.
+
+Todo funciona en GitHub Pages sin servidor (solo HTML/CSS/JS). El confeti está implementado a mano, sin librerías externas.
+
+> Sugerencia de imágenes: el sitio usa emojis como íconos. Si generas un set de ilustraciones (mascota "RE", tachos de colores, residuos, medallas e infografía del ciclo), pídelas con un mismo estilo —"flat vector illustration, soft green palette, rounded shapes, friendly, educational, white background"— y reemplaza los emojis por `<img>` para mayor identidad visual.
 
 ## Uso local
 
