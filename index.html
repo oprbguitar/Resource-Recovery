@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8fbf5">
+  <meta name="description" content="REsource Recovery: prototipo educativo de segregación de residuos de Séptimo B, Innova Schools.">
+  <title>REsource Recovery · Innova Schools</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="#inicio" data-section="inicio" aria-label="Ir al inicio">
+        <span class="brand-mark" aria-hidden="true">RR</span>
+        <span class="brand-name"><strong>RE</strong>source Recovery</span>
+      </a>
+      <div class="school-meta" aria-label="Información del proyecto">
+        <span>Innova Schools</span>
+        <span>Séptimo B</span>
+      </div>
+      <div class="points-pill" aria-label="Puntos de Tu equipo">
+        <span>Puntos</span>
+        <strong id="header-points">0</strong>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <nav class="step-nav" aria-label="Secciones del proyecto">
+        <button class="nav-step is-active" type="button" data-section="inicio" aria-current="page"><span>1</span>Inicio</button>
+        <button class="nav-step" type="button" data-section="problema"><span>2</span>Problema</button>
+        <button class="nav-step" type="button" data-section="solucion"><span>3</span>Solución</button>
+        <button class="nav-step" type="button" data-section="tutorial"><span>4</span>Tutorial</button>
+        <button class="nav-step" type="button" data-section="validacion"><span>5</span>Validación</button>
+        <button class="nav-step" type="button" data-section="ranking"><span>6</span>Ranking</button>
+        <button class="nav-step" type="button" data-section="equipo"><span>7</span>Equipo</button>
+      </nav>
+
+      <main class="panel-stage" id="main-content" tabindex="-1">
+        <section class="panel panel-home is-active" id="inicio" aria-labelledby="inicio-title">
+          <div class="hero-copy">
+            <h1 id="inicio-title"><span>RE</span>source<br>Recovery</h1>
+            <p class="hero-subtitle">Aprende a segregar, reciclar y recuperar recursos</p>
+            <p class="hero-description">Este prototipo busca motivar a la comunidad a separar correctamente los residuos mediante educación ambiental, registro de acciones, puntos y ranking.</p>
+            <button class="button button-primary" type="button" data-section="problema">Iniciar recorrido <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="hero-visual">
+            <img src="assets/resource-recovery-hero.png" alt="Papel, botella y cartón que se recuperan como nuevos recursos y plantas.">
+            <p>Lo que se separa bien puede convertirse en un nuevo recurso.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="problema" aria-labelledby="problema-title" hidden>
+          <div class="section-heading">
+            <p class="section-number">02</p>
+            <div><h2 id="problema-title">El problema empieza al mezclar</h2><p>Cuando todo termina en el mismo tacho, recuperar materiales se vuelve mucho más difícil.</p></div>
+          </div>
+          <div class="problem-layout">
+            <div class="problem-list">
+              <article class="problem-item"><span>01</span><div><h3>Segregación incorrecta</h3><p>Los residuos se colocan en recipientes que no corresponden.</p></div></article>
+              <article class="problem-item"><span>02</span><div><h3>Reciclables desperdiciados</h3><p>Papel, cartón y plástico se mezclan con residuos generales.</p></div></article>
+              <article class="problem-item"><span>03</span><div><h3>Poca motivación</h3><p>Sin una meta clara, muchas acciones de reciclaje se abandonan.</p></div></article>
+              <article class="problem-item"><span>04</span><div><h3>Educación poco práctica</h3><p>Necesitamos aprender con ejemplos simples y participar activamente.</p></div></article>
+            </div>
+            <aside class="impact-note"><strong>La oportunidad</strong><p>Enseñar, registrar y reconocer cada buena decisión puede convertir un hábito pequeño en un cambio compartido.</p></aside>
+          </div>
+          <div class="panel-actions"><button class="button button-quiet" type="button" data-section="inicio">← Anterior</button><button class="button button-primary" type="button" data-section="solucion">Ver la solución →</button></div>
+        </section>
+
+        <section class="panel" id="solucion" aria-labelledby="solucion-title" hidden>
+          <div class="section-heading">
+            <p class="section-number">03</p>
+            <div><h2 id="solucion-title">Una ruta simple para actuar mejor</h2><p>REsource Recovery propone una app educativa que enseña a separar residuos, permite registrar acciones de reciclaje, suma puntos y muestra un ranking para motivar la participación.</p></div>
+          </div>
+          <div class="process-flow" aria-label="Proceso de REsource Recovery">
+            <article><span>1</span><h3>Aprende</h3><p>Reconoce cada material.</p></article>
+            <article><span>2</span><h3>Separa</h3><p>Elige el lugar correcto.</p></article>
+            <article><span>3</span><h3>Registra</h3><p>Valida tu acción.</p></article>
+            <article><span>4</span><h3>Gana puntos</h3><p>Suma por ayudar.</p></article>
+            <article><span>5</span><h3>Mejora</h3><p>Avanza en el ranking.</p></article>
+          </div>
+          <blockquote>“Recuperar recursos también es cuidar el futuro”.</blockquote>
+          <div class="panel-actions"><button class="button button-quiet" type="button" data-section="problema">← Anterior</button><button class="button button-primary" type="button" data-section="tutorial">Aprender a separar →</button></div>
+        </section>
+
+        <section class="panel" id="tutorial" aria-labelledby="tutorial-title" hidden>
+          <div class="section-heading compact-heading">
+            <p class="section-number">04</p>
+            <div><h2 id="tutorial-title">Practica antes de registrar</h2><p>Selecciona una acción. Esa será la cantidad que sumarás cuando la valides.</p></div>
+          </div>
+          <div class="tutorial-grid" role="list" aria-label="Acciones de reciclaje">
+            <button class="action-card" type="button" data-action-points="5" data-action-reason="Papel o cartón"><span class="material-code">PAP</span><strong>Papel / cartón</strong><small>+5 puntos</small></button>
+            <button class="action-card" type="button" data-action-points="10" data-action-reason="Botella de plástico"><span class="material-code blue">PET</span><strong>Botella plástica</strong><small>+10 puntos</small></button>
+            <button class="action-card" type="button" data-action-points="30" data-action-reason="Caja de cartón"><span class="material-code gold">BOX</span><strong>Caja / cartón</strong><small>+30 puntos</small></button>
+            <button class="action-card" type="button" data-action-points="15" data-action-reason="Segregación correcta"><span class="material-code green">OK</span><strong>Segregación correcta</strong><small>+15 puntos</small></button>
+          </div>
+          <div class="phrase-rail" aria-label="Mensajes ambientales"><span>Reciclar suma</span><span>Cada acción cuenta</span><span>Separa bien, cuida tu parque</span><span>Recuperar recursos es cuidar el futuro</span></div>
+          <div class="decision-box">
+            <div><strong>¿Quieres continuar?</strong><p id="selected-action-text">Elige una acción para comenzar.</p></div>
+            <div><button class="button button-quiet" id="show-more-tutorial" type="button">No, quiero aprender más</button><button class="button button-primary" id="continue-validation" type="button">Sí, validar →</button></div>
+          </div>
+          <div class="more-tutorial" id="more-tutorial" hidden>
+            <h3>Una separación correcta, paso a paso</h3>
+            <p>Vacía los envases, mantenlos limpios y secos, aplana las cajas para ahorrar espacio y evita mezclar papel con restos de comida. Si dudas, revisa el material antes de depositarlo.</p>
+            <button class="text-button" type="button" data-section="validacion">Entendido, continuar a validación →</button>
+          </div>
+        </section>
+
+        <section class="panel" id="validacion" aria-labelledby="validacion-title" hidden>
+          <div class="section-heading">
+            <p class="section-number">05</p>
+            <div><h2 id="validacion-title">Valida tu acción</h2><p>En este prototipo puedes simular cualquiera de los tres métodos.</p></div>
+          </div>
+          <div class="validation-layout">
+            <div class="validation-options" role="group" aria-label="Métodos de validación simulados">
+              <button type="button" data-validate="QR"><span>QR</span><strong>Código QR</strong><small>Simular lectura</small></button>
+              <button type="button" data-validate="Cámara"><span>CAM</span><strong>Cámara</strong><small>Simular fotografía</small></button>
+              <button type="button" data-validate="Registro manual"><span>MAN</span><strong>Registro manual</strong><small>Confirmar acción</small></button>
+            </div>
+            <aside class="future-note"><strong>Validación futura</strong><p>En una versión avanzada, un tacho inteligente podría validar la acción mediante QR, cámara o sensor. En este prototipo la validación se simula.</p></aside>
+          </div>
+          <div class="validation-success" id="validation-success" role="status" aria-live="polite" hidden>
+            <span aria-hidden="true">✓</span><div><strong>¡Acción registrada!</strong><p>Sumaste puntos por ayudar al planeta.</p></div><button class="button button-primary" type="button" data-section="ranking">Ver ranking →</button>
+          </div>
+          <div class="panel-actions" id="validation-back"><button class="button button-quiet" type="button" data-section="tutorial">← Volver al tutorial</button></div>
+        </section>
+
+        <section class="panel" id="ranking" aria-labelledby="ranking-title" hidden>
+          <div class="ranking-header">
+            <div class="section-heading compact-heading"><p class="section-number">06</p><div><h2 id="ranking-title">Ranking de recuperación</h2><p>Cada acción correcta mueve al equipo.</p></div></div>
+            <div class="score-display"><span>Tu puntaje</span><strong id="ranking-points">0</strong></div>
+          </div>
+          <ol class="ranking-list" id="ranking-list" aria-label="Ranking de equipos"></ol>
+          <div class="ranking-actions"><button class="button button-primary" type="button" data-section="validacion">Registrar otra acción</button><button class="button button-quiet" type="button" id="reset-demo">Reiniciar puntos demo</button></div>
+        </section>
+
+        <section class="panel" id="equipo" aria-labelledby="equipo-title" hidden>
+          <div class="section-heading compact-heading">
+            <p class="section-number">07</p>
+            <div><h2 id="equipo-title">El equipo detrás de la idea</h2><p>Somos REsource Recovery, un equipo de Séptimo B de Innova Schools comprometido con la educación ambiental y la recuperación responsable de recursos.</p></div>
+          </div>
+          <div class="team-grid">
+            <article><span>CR</span><h3>Carolina Reyes Moreno</h3><p>Líder</p></article>
+            <article><span>LC</span><h3>Luana Camayo</h3><p>Secretaria</p></article>
+            <article><span>BP</span><h3>Bruno Pumapillo</h3><p>Coordinador</p></article>
+            <article><span>MI</span><h3>Milagros Isidro</h3><p>Temporizadora</p></article>
+            <article><span>LG</span><h3>Liam Garma</h3><p>Evaluador</p></article>
+            <article><span>FL</span><h3>Franco Leonardo</h3><p>Motivador</p></article>
+          </div>
+          <div class="panel-actions"><button class="button button-quiet" type="button" data-section="ranking">← Ver ranking</button><button class="button button-primary" type="button" data-section="inicio">Volver al inicio</button></div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer"><span>Proyecto educativo de segregación de residuos</span><button type="button" data-section="equipo">Integrantes del grupo</button></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <script src="script.js"></script>
+</body>
+</html>
