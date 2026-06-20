@@ -7,7 +7,7 @@ Prototipo educativo y gamificado de segregación de residuos creado por **Sépti
 No requiere instalación ni compilación. Desde PowerShell:
 
 ```bash
-cd "C:\Users\oprbg\Documents\Proyectos Codex\resource recovery"
+cd ruta/al/proyecto/resource-recovery
 python -m http.server 5500
 ```
 
