@@ -13,6 +13,11 @@ Prototipo educativo y gamificado de segregación de residuos creado por **Sépti
 - **Logros/medallas** desbloqueables (bronce, plata, oro y retos del juego).
 - **Contador de impacto** estimado (botellas, agua y CO₂).
 - **Microanimaciones**: aparición de secciones, puntos animados y efectos al pasar el cursor.
+- **Validación real** (sección Validación):
+  - *Código QR*: escanea con la cámara usando `BarcodeDetector` nativo y, como respaldo (iPhone/Firefox), la librería `jsQR` cargada desde CDN; si no hay soporte, permite ingresar el código a mano.
+  - *Cámara*: abre la cámara con `getUserMedia`, captura una foto como evidencia (la imagen nunca sale del dispositivo).
+  - *Registro manual*: formulario con tipo de residuo, cantidad y lugar.
+  - La cámara y el QR requieren HTTPS; GitHub Pages ya lo provee (y `localhost` también funciona).
 
 Todo funciona en GitHub Pages sin servidor (solo HTML/CSS/JS). El confeti está implementado a mano, sin librerías externas.
 

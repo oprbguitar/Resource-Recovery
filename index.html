@@ -162,7 +162,7 @@
         <section class="panel" id="validacion" aria-labelledby="validacion-title" hidden>
           <div class="section-heading">
             <p class="section-number">06</p>
-            <div><h2 id="validacion-title">Valida tu acción</h2><p>Elige una acción real y simula cualquiera de los tres métodos de validación.</p></div>
+            <div><h2 id="validacion-title">Valida tu acción</h2><p>Elige una acción y valídala con QR, cámara o registro manual.</p></div>
           </div>
           <div class="tutorial-grid" role="group" aria-label="Acciones de reciclaje">
             <button class="action-card" type="button" data-action-points="5" data-action-reason="Papel o cartón"><span class="material-code">PAP</span><strong>Papel / cartón</strong><small>+5 puntos</small></button>
@@ -177,7 +177,7 @@
               <button type="button" data-validate="Cámara"><span>CAM</span><strong>Cámara</strong><small>Simular fotografía</small></button>
               <button type="button" data-validate="Registro manual"><span>MAN</span><strong>Registro manual</strong><small>Confirmar acción</small></button>
             </div>
-            <aside class="future-note"><strong>Validación futura</strong><p>En una versión avanzada, un tacho inteligente podría validar la acción mediante QR, cámara o sensor. En este prototipo la validación se simula.</p></aside>
+            <aside class="future-note"><strong>¿Cómo funciona?</strong><p>El lector de QR y la cámara funcionan de verdad en tu dispositivo; la foto nunca sale de tu teléfono. En una versión avanzada, un tacho inteligente validaría la acción de forma automática con un sensor.</p></aside>
           </div>
           <div class="validation-success" id="validation-success" role="status" aria-live="polite" hidden>
             <span aria-hidden="true">✓</span><div><strong>¡Acción registrada!</strong><p>Sumaste puntos por ayudar al planeta.</p></div><button class="button button-primary" type="button" data-section="ranking">Ver ranking →</button>
@@ -229,6 +229,16 @@
     </div>
 
     <footer class="site-footer"><span>Proyecto educativo de segregación de residuos</span><button type="button" data-section="equipo">Integrantes del grupo</button></footer>
+  </div>
+  <div class="validator-modal" id="validator-modal" hidden role="dialog" aria-modal="true" aria-labelledby="validator-title">
+    <div class="validator-backdrop" data-close></div>
+    <div class="validator-card">
+      <button class="validator-close" id="validator-close" type="button" aria-label="Cerrar">✕</button>
+      <h3 id="validator-title">Validar</h3>
+      <p class="validator-desc" id="validator-desc"></p>
+      <div class="validator-body" id="validator-body"></div>
+      <p class="validator-status" id="validator-status" role="status" aria-live="polite"></p>
+    </div>
   </div>
   <canvas class="confetti-canvas" id="confetti-canvas" aria-hidden="true"></canvas>
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>

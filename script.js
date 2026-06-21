@@ -225,13 +225,219 @@
     saveState();
   }
 
-  function simulateValidation(method) {
+  function completeValidation(method, detail) {
+    closeValidator();
     addPoints(state.selectedAction.amount, state.selectedAction.reason);
     successPanel.hidden = false;
     validationBack.hidden = true;
-    successPanel.querySelector("p").textContent = `${method} completado. Sumaste ${state.selectedAction.amount} puntos por ayudar al planeta.`;
+    successPanel.querySelector("p").textContent = `${method} completado${detail ? " · " + detail : ""}. Sumaste ${state.selectedAction.amount} puntos por ayudar al planeta.`;
     successPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
     fireConfetti();
+  }
+
+  /* ---------- Validator (QR / cámara / manual) ---------- */
+  const modal = $("validator-modal");
+  const modalTitle = $("validator-title");
+  const modalDesc = $("validator-desc");
+  const modalBody = $("validator-body");
+  const modalStatus = $("validator-status");
+  let lastFocus = null;
+  let camStream = null;
+  let qrScanning = false;
+
+  function setStatus(message, kind) {
+    modalStatus.textContent = message || "";
+    modalStatus.className = "validator-status" + (kind ? " " + kind : "");
+  }
+
+  async function startCamera(video) {
+    camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+    video.srcObject = camStream;
+    await video.play();
+  }
+
+  function stopCamera() {
+    if (camStream) { camStream.getTracks().forEach((t) => t.stop()); camStream = null; }
+  }
+
+  function cameraError(err, fallback) {
+    const denied = err && (err.name === "NotAllowedError" || err.name === "SecurityError");
+    setStatus(denied ? "Permiso de cámara denegado. Puedes registrar la acción manualmente." : "No se pudo acceder a la cámara. Usa el registro manual.", "bad");
+    modalBody.innerHTML = "";
+    const btn = document.createElement("button");
+    btn.className = "button button-primary";
+    btn.type = "button";
+    btn.textContent = "Continuar manualmente";
+    btn.addEventListener("click", fallback);
+    modalBody.appendChild(btn);
+  }
+
+  function openValidator(method) {
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    setStatus("");
+    if (method === "Registro manual") openManual();
+    else if (method === "Cámara") openPhoto();
+    else openQR();
+    $("validator-close").focus();
+  }
+
+  function closeValidator() {
+    qrScanning = false;
+    stopCamera();
+    modal.hidden = true;
+    modalBody.innerHTML = "";
+    setStatus("");
+    if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+  }
+
+  function openManual() {
+    modalTitle.textContent = "Registro manual";
+    modalDesc.textContent = "Completa los datos de tu acción de reciclaje para registrarla.";
+    modalBody.innerHTML = `
+      <form class="validator-form" id="manual-form">
+        <div class="validator-field">
+          <label for="m-tipo">Tipo de residuo</label>
+          <select id="m-tipo">
+            <option value="Papel / cartón">Papel / cartón</option>
+            <option value="Plástico">Plástico</option>
+            <option value="Vidrio">Vidrio</option>
+            <option value="Metal">Metal</option>
+            <option value="Orgánico">Orgánico</option>
+          </select>
+        </div>
+        <div class="validator-field">
+          <label for="m-cant">Cantidad de envases</label>
+          <input id="m-cant" type="number" min="1" max="99" value="1" inputmode="numeric">
+        </div>
+        <div class="validator-field">
+          <label for="m-lugar">Lugar (opcional)</label>
+          <input id="m-lugar" type="text" maxlength="40" placeholder="Ej.: Salón 7B" autocomplete="off">
+        </div>
+        <button class="button button-primary" type="submit">Confirmar acción</button>
+      </form>`;
+    $("manual-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const tipo = $("m-tipo").value;
+      const cant = Math.max(1, Math.min(99, parseInt($("m-cant").value, 10) || 1));
+      const lugar = $("m-lugar").value.trim();
+      completeValidation("Registro manual", `${cant} × ${tipo}${lugar ? " en " + lugar : ""}`);
+    });
+  }
+
+  function openPhoto() {
+    modalTitle.textContent = "Cámara";
+    modalDesc.textContent = "Toma una foto de tu acción como evidencia. La foto no sale de tu dispositivo.";
+    modalBody.innerHTML = `
+      <div class="validator-camera"><video id="cam-video" playsinline muted></video></div>
+      <div class="validator-actions"><button class="button button-primary" id="cam-shot" type="button" disabled>Tomar foto</button></div>`;
+    const video = $("cam-video");
+    startCamera(video)
+      .then(() => { $("cam-shot").disabled = false; setStatus("Cámara lista. Encuadra y toma la foto.", "ok"); })
+      .catch((err) => cameraError(err, openManual));
+    $("cam-shot").addEventListener("click", () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+      canvas.getContext("2d").drawImage(video, 0, 0);
+      const url = canvas.toDataURL("image/jpeg", 0.8);
+      stopCamera();
+      setStatus("");
+      modalBody.innerHTML = `
+        <div class="validator-camera"><img src="${url}" alt="Foto capturada de tu acción de reciclaje"></div>
+        <div class="validator-actions">
+          <button class="button button-quiet" id="cam-retry" type="button">Repetir</button>
+          <button class="button button-primary" id="cam-confirm" type="button">Confirmar evidencia</button>
+        </div>`;
+      $("cam-retry").addEventListener("click", openPhoto);
+      $("cam-confirm").addEventListener("click", () => completeValidation("Cámara", "foto registrada"));
+    });
+  }
+
+  function openQR() {
+    modalTitle.textContent = "Código QR";
+    modalDesc.textContent = "Apunta la cámara al código QR del tacho para validar.";
+    modalBody.innerHTML = `
+      <div class="validator-camera"><video id="qr-video" playsinline muted></video><div class="scan-frame"></div></div>
+      <div class="validator-actions"><button class="button button-quiet" id="qr-manual" type="button">No tengo QR</button></div>`;
+    $("qr-manual").addEventListener("click", qrManualEntry);
+    const video = $("qr-video");
+    startCamera(video)
+      .then(() => { setStatus("Buscando código QR…"); beginScan(video); })
+      .catch((err) => cameraError(err, qrManualEntry));
+  }
+
+  async function beginScan(video) {
+    qrScanning = true;
+    if ("BarcodeDetector" in window) {
+      let detector = null;
+      try { detector = new window.BarcodeDetector({ formats: ["qr_code"] }); } catch (e) { detector = null; }
+      if (detector) {
+        const loop = async () => {
+          if (!qrScanning) return;
+          try { const codes = await detector.detect(video); if (codes && codes.length) { onQR(codes[0].rawValue); return; } } catch (e) {}
+          setTimeout(loop, 300);
+        };
+        loop();
+        return;
+      }
+    }
+    loadJsQR().then((jsQR) => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      const loop = () => {
+        if (!qrScanning) return;
+        if (video.videoWidth) {
+          canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+          ctx.drawImage(video, 0, 0);
+          const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const code = jsQR(img.data, img.width, img.height);
+          if (code) { onQR(code.data); return; }
+        }
+        setTimeout(loop, 300);
+      };
+      loop();
+    }).catch(() => {
+      setStatus("Tu navegador no puede leer QR aquí. Ingresa el código manualmente.", "bad");
+      qrManualEntry();
+    });
+  }
+
+  function onQR(value) {
+    qrScanning = false;
+    completeValidation("Código QR", value ? "código: " + String(value).slice(0, 24) : "código leído");
+  }
+
+  function loadJsQR() {
+    return new Promise((resolve, reject) => {
+      if (window.jsQR) return resolve(window.jsQR);
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js";
+      s.onload = () => (window.jsQR ? resolve(window.jsQR) : reject());
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  function qrManualEntry() {
+    qrScanning = false;
+    stopCamera();
+    modalTitle.textContent = "Código QR";
+    modalDesc.textContent = "Ingresa el código que aparece junto al tacho.";
+    modalBody.innerHTML = `
+      <form class="validator-form" id="qr-form">
+        <div class="validator-field">
+          <label for="qr-code">Código del tacho</label>
+          <input id="qr-code" type="text" maxlength="24" placeholder="Ej.: RR-AZUL-07" autocomplete="off">
+          <p class="validator-hint">El código suele estar impreso junto al tacho.</p>
+        </div>
+        <button class="button button-primary" type="submit">Validar código</button>
+      </form>`;
+    $("qr-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const code = $("qr-code").value.trim();
+      if (!code) { setStatus("Escribe un código para continuar.", "bad"); return; }
+      completeValidation("Código QR", "código: " + code);
+    });
   }
 
   /* ---------- Confetti (self-contained) ---------- */
@@ -500,7 +706,9 @@
     if (actionButton) { selectAction(actionButton); return; }
 
     const validationButton = event.target.closest("[data-validate]");
-    if (validationButton) { simulateValidation(validationButton.dataset.validate); return; }
+    if (validationButton) { openValidator(validationButton.dataset.validate); return; }
+
+    if (event.target.closest("#validator-close") || event.target.closest("[data-close]")) { closeValidator(); return; }
 
     const binButton = event.target.closest(".game-bin");
     if (binButton) { classify(binButton.dataset.bin); return; }
@@ -524,6 +732,10 @@
     if (event.key === "Home") next = 0;
     if (event.key === "End") next = navButtons.length - 1;
     navButtons[next].focus();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.hidden) closeValidator();
   });
 
   /* ---------- Init ---------- */
