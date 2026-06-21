@@ -244,6 +244,12 @@ blockquote { margin: 32px 0 0; padding-left: 20px; border-left: 4px solid var(--
 [data-theme="dark"] .future-note strong { color: var(--kraft-500); }
 .future-note p { margin: 10px 0 0; color: #66523c; font-size: 14px; line-height: 1.6; }
 [data-theme="dark"] .future-note p { color: #c9b79a; }
+.codes-ref { margin-top: 22px; padding: 14px 18px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-2); }
+.codes-ref summary { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--green-950); cursor: pointer; }
+.codes-ref ul { margin: 14px 0 8px; padding-left: 18px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.codes-ref code { padding: 2px 7px; border-radius: 7px; background: var(--green-100); color: var(--green-800); font-size: 13px; }
+.codes-ref p { margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+
 .validation-success { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; margin-top: 25px; padding: 17px 20px; border: 1px solid #add1a2; border-radius: var(--radius-md); background: var(--green-100); }
 .validation-success > span { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--green-650); color: #fff; font-size: 22px; }
 .validation-success strong { font-family: var(--font-display); }

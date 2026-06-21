@@ -14,7 +14,7 @@ Prototipo educativo y gamificado de segregación de residuos creado por **Sépti
 - **Contador de impacto** estimado (botellas, agua y CO₂).
 - **Microanimaciones**: aparición de secciones, puntos animados y efectos al pasar el cursor.
 - **Validación real** (sección Validación):
-  - *Código QR*: escanea con la cámara usando `BarcodeDetector` nativo y, como respaldo (iPhone/Firefox), la librería `jsQR` cargada desde CDN; si no hay soporte, permite ingresar el código a mano.
+  - *Código QR*: escanea con la cámara usando `BarcodeDetector` nativo y, como respaldo (iPhone/Firefox), la librería `jsQR` cargada desde CDN; si no hay soporte, permite ingresar el código a mano. Solo se aceptan los **códigos válidos por tacho** (`RR-MARRON-01`, `RR-BLANCO-02`, `RR-AZUL-03`, `RR-VERDE-04`, `RR-AMARILLO-05`); cada uno otorga los puntos de su material. Edita el objeto `binCodes` en `script.js` para cambiarlos.
   - *Cámara*: abre la cámara con `getUserMedia`, captura una foto como evidencia (la imagen nunca sale del dispositivo).
   - *Registro manual*: formulario con tipo de residuo, cantidad y lugar.
   - La cámara y el QR requieren HTTPS; GitHub Pages ya lo provee (y `localhost` también funciona).

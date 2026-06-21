@@ -225,14 +225,49 @@
     saveState();
   }
 
-  function completeValidation(method, detail) {
+  // Códigos QR válidos por tacho (imprime estos QR y pégalos junto a cada tacho)
+  const binCodes = {
+    "RR-MARRON-01": { material: "Orgánico", points: 10 },
+    "RR-BLANCO-02": { material: "Plástico", points: 10 },
+    "RR-AZUL-03": { material: "Papel y cartón", points: 5 },
+    "RR-VERDE-04": { material: "Vidrio", points: 15 },
+    "RR-AMARILLO-05": { material: "Metal", points: 15 }
+  };
+
+  function completeValidation(method, detail, amount, reason) {
     closeValidator();
-    addPoints(state.selectedAction.amount, state.selectedAction.reason);
+    const points = Number.isFinite(amount) ? amount : state.selectedAction.amount;
+    const why = reason || state.selectedAction.reason;
+    addPoints(points, why);
     successPanel.hidden = false;
     validationBack.hidden = true;
-    successPanel.querySelector("p").textContent = `${method} completado${detail ? " · " + detail : ""}. Sumaste ${state.selectedAction.amount} puntos por ayudar al planeta.`;
+    successPanel.querySelector("p").textContent = `${method} completado${detail ? " · " + detail : ""}. Sumaste ${points} puntos por ayudar al planeta.`;
     successPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
     fireConfetti();
+  }
+
+  function handleCode(value, fromScan) {
+    const key = String(value || "").trim().toUpperCase();
+    const entry = binCodes[key];
+    if (entry) {
+      completeValidation("Código QR", `${entry.material} (${key})`, entry.points, `Reciclaje de ${entry.material}`);
+      return true;
+    }
+    if (fromScan) {
+      stopCamera();
+      setStatus(`Código no reconocido: «${key}».`, "bad");
+      modalBody.innerHTML = `
+        <p class="validator-hint">Asegúrate de escanear el QR de un tacho REsource Recovery.</p>
+        <div class="validator-actions">
+          <button class="button button-primary" id="qr-retry" type="button">Volver a escanear</button>
+          <button class="button button-quiet" id="qr-manual2" type="button">Ingresar código</button>
+        </div>`;
+      $("qr-retry").addEventListener("click", openQR);
+      $("qr-manual2").addEventListener("click", qrManualEntry);
+    } else {
+      setStatus(`Código no reconocido: «${key}». Verifica el tacho.`, "bad");
+    }
+    return false;
   }
 
   /* ---------- Validator (QR / cámara / manual) ---------- */
@@ -404,7 +439,7 @@
 
   function onQR(value) {
     qrScanning = false;
-    completeValidation("Código QR", value ? "código: " + String(value).slice(0, 24) : "código leído");
+    handleCode(value, true);
   }
 
   function loadJsQR() {
@@ -427,8 +462,8 @@
       <form class="validator-form" id="qr-form">
         <div class="validator-field">
           <label for="qr-code">Código del tacho</label>
-          <input id="qr-code" type="text" maxlength="24" placeholder="Ej.: RR-AZUL-07" autocomplete="off">
-          <p class="validator-hint">El código suele estar impreso junto al tacho.</p>
+          <input id="qr-code" type="text" maxlength="24" placeholder="Ej.: RR-AZUL-03" autocomplete="off">
+          <p class="validator-hint">Códigos válidos: ${Object.keys(binCodes).join(", ")}.</p>
         </div>
         <button class="button button-primary" type="submit">Validar código</button>
       </form>`;
@@ -436,7 +471,7 @@
       e.preventDefault();
       const code = $("qr-code").value.trim();
       if (!code) { setStatus("Escribe un código para continuar.", "bad"); return; }
-      completeValidation("Código QR", "código: " + code);
+      handleCode(code, false);
     });
   }
 
